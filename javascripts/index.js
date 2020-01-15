@@ -8,9 +8,11 @@ async function fetchJson(extension){
 }
 
 function createCards(){
-  
-  cards = fetchJson("cards");
-  cards.forEach( card => console.log(card));
+  fetch(`${BACKEND_URL}/cards`)
+  .then(response => response.json())
+  .then(cards => {
+    cards.forEach(card => console.log(card));
+  });
   //for each statement
   //push to allCards array
 
