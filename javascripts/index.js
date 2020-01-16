@@ -1,21 +1,16 @@
 const BACKEND_URL = 'http://localhost:3000';
 let ALLCARDS = [];
 
-async function fetchJson(extension){
-  const response = await fetch(`${BACKEND_URL}/${extension}`);
-  const json = await response.json();
-  return await json;
-}
-
 function createCards(){
   fetch(`${BACKEND_URL}/cards`)
   .then(response => response.json())
   .then(cards => {
-    cards.forEach(card => console.log(card));
+    cards.forEach(card => {
+      const {id,name,arcana,suit,img,fortune_telling,keywords,meaning_face_up,meaning_face_down,questions_to_ask} = card;
+      const newCard = new Card(id,name,arcana,suit,img,fortune_telling,keywords,meaning_face_up,meaning_face_down,questions_to_ask);
+      ALLCARDS.push(newCard);
+    });
   });
-  //for each statement
-  //push to allCards array
-
 }
 
 function viewFortunes(){
