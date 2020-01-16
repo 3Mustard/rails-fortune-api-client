@@ -1,6 +1,6 @@
 const BACKEND_URL = 'http://localhost:3000';
-let ALLCARDS = [];
 
+//fetches card data and turns each card into a js Card class.
 function createCards(){
   fetch(`${BACKEND_URL}/cards`)
   .then(response => response.json())
@@ -13,16 +13,21 @@ function createCards(){
   });
 }
 
-function viewFortunes(){
+function setupHomePage(){
+  //new fortune button
+  //view fortunes button
+}
 
+function viewFortunes(){
+  //load all fortunes
 }
 
 function newFortune(){
-
+  //create new fortune object and save to database
 }
 
 function deleteFortune(){
-
+  //destroy fortune object
 }
 
 function createNote(){
