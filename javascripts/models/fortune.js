@@ -1,5 +1,9 @@
 let ALLFORTUNES = [];
 
+function fortuneFactory(){
+    
+} 
+
 class Fortune {
     constructor(){
         let card1 = Card.drawCard();
