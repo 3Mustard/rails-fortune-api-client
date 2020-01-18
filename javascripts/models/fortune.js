@@ -24,13 +24,13 @@ class Fortune {
                 "Accept": "application/json"
             },
             body: JSON.stringify({
-                fortune_card_id: card_ids
+                card_ids: card_ids
             })
         })
         .then(response => response.json())
         .then(fortune => {
-            console.log(fortune)
-            //new Fortune(fortune["id"],card1,card2,card3)
+            let newFortune = new Fortune(fortune["id"],card1,card2,card3);
+            newFortune.render();
         })
     }
 
