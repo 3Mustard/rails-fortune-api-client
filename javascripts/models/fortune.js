@@ -1,20 +1,46 @@
 let ALLFORTUNES = [];
 
-function fortuneFactory(){
-    
-} 
-
 class Fortune {
-    constructor(){
+    constructor(id,card1,card2,card3){
+        this.cards = [card1,card2,card3];
+        this.card_id = [card1["id"],card2["id"],card3["id"]]
+        this.id = id
+        ALLFORTUNES.push(this)
+    }
+    static all(){
+        return ALLFORTUNES;
+    }
+
+    static createFortune(){
         let card1 = Card.drawCard();
         let card2 = Card.drawCard();
         let card3 = Card.drawCard();
+        let card_ids = [card1["id"],card2["id"],card3["id"]]
 
-        this.cards = [card1,card2,card3];
-        this.card_id = [card1["id"],card2["id"],card3["id"]]
-        this.id = ALLFORTUNES.length;
-        ALLFORTUNES.push(this)
+        fetch(`${BACKEND_URL}/fortunes`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                fortune_card_id: card_ids
+            })
+        })
+        .then(response => response.json())
+        .then(fortune => {
+            console.log(fortune)
+            //new Fortune(fortune["id"],card1,card2,card3)
+        })
     }
+
+    static renderFortunes(){
+        const fortunes = Fortune.all();
+      
+        if(fortunes.length > 0){
+          fortunes.forEach(fortune => fortune.render());
+        }
+      }
 
     render(){
         let container = document.getElementById('fortunes-container');
@@ -41,6 +67,7 @@ class Fortune {
             <img src="assets/images/cards/${card3.img}">
             <p>${card3.fortune_telling}</p>
             <p>${card3.keywords}</p>
+            <btn class="delete">Remove Fortune</btn>
         `;
         
         container.appendChild(fortuneCard);

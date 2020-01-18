@@ -14,6 +14,18 @@ class Card {
         this.questions_to_ask = questions_to_ask;
     }
 
+    static createCards(){
+        fetch(`${BACKEND_URL}/cards`)
+        .then(response => response.json())
+        .then(cards => {
+          cards.forEach(card => {
+            const {id,name,arcana,suit,img,fortune_telling,keywords,meaning_face_up,meaning_face_down,questions_to_ask} = card;
+            const newCard = new Card(id,name,arcana,suit,img,fortune_telling,keywords,meaning_face_up,meaning_face_down,questions_to_ask);
+            ALLCARDS.push(newCard);
+          });
+        });
+      }
+
     static all(){
         return ALLCARDS;
     }
