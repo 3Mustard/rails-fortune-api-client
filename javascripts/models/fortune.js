@@ -11,7 +11,7 @@ class Fortune {
         return ALLFORTUNES;
     }
 
-    static createFortune(){
+    static create(){
         let card1 = Card.drawCard();
         let card2 = Card.drawCard();
         let card3 = Card.drawCard();
@@ -34,7 +34,21 @@ class Fortune {
         })
     }
 
-    static renderFortunes(){
+    destroy(e){
+        const id = e.target.dataset.id
+
+        fetch(`${BACKEND_URL}/fortunes/${id}/`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        })
+        .then(()=>{
+            e.target.parentElement.remove();
+        })
+    }
+
+    static renderAllFortunes(){
         const fortunes = Fortune.all();
       
         if(fortunes.length > 0){
@@ -44,17 +58,15 @@ class Fortune {
 
     render(){
         let container = document.getElementById('fortunes-container');
-        let fortuneCard = document.createElement('div');
-
-        fortuneCard.classList.add('fortune-card');
-        fortuneCard.id = this.id;
-
+        
         let card1 = this.cards[0];
         let card2 = this.cards[1];
         let card3 = this.cards[2];
 
-        let cardDiv = document.createElement('div');
-        cardDiv.innerHTML = `
+        let fortuneCard = document.createElement('div');
+        fortuneCard.classList.add('fortune-card');
+        fortuneCard.id = this.id;
+        fortuneCard.innerHTML = `
             <h2>${card1.name}</h2>
             <img src="assets/images/cards/${card1.img}">
             <p>${card1.fortune_telling}</p>
@@ -67,10 +79,12 @@ class Fortune {
             <img src="assets/images/cards/${card3.img}">
             <p>${card3.fortune_telling}</p>
             <p>${card3.keywords}</p>
-            <btn class="delete">Remove Fortune</btn>
+            <btn data-id="${this.id}"class="delete">Remove Fortune</btn>
         `;
         
         container.appendChild(fortuneCard);
-        fortuneCard.appendChild(cardDiv);
+        fortuneCard.addEventListener('click', e => {
+            if(e.target.className === "delete") this.destroy(e)
+        })
     }
 }

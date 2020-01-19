@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function(){
 function setupPage(){
   Card.createCards();
   options();
-  Fortune.renderFortunes();
+  Fortune.renderAllFortunes();
 }
 
 function options(){
@@ -16,7 +16,7 @@ function options(){
   let newFortune = document.createElement("btn");
   newFortune.innerHTML = "New Fortune"
   newFortune.id = "new-fortune"
-  newFortune.addEventListener('click',Fortune.createFortune);
+  newFortune.addEventListener('click',Fortune.create);
 
   options.appendChild(newFortune);
 }
