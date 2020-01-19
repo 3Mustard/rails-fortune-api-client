@@ -5,9 +5,8 @@ document.addEventListener('DOMContentLoaded', function(){
 })
 
 function setupPage(){
-  Card.createCards();
+  Card.create();
   options();
-  Fortune.renderAllFortunes();
 }
 
 function options(){
@@ -18,9 +17,11 @@ function options(){
   newFortune.id = "new-fortune"
   newFortune.addEventListener('click',Fortune.create);
 
+  let viewFortunes = document.createElement("btn");
+  viewFortunes.innerHTML = "View Fortune"
+  viewFortunes.id = "view-fortunes"
+  viewFortunes.addEventListener('click',Fortune.renderAll);
+
   options.appendChild(newFortune);
-}
-
-function clearPage(){
-
+  options.appendChild(viewFortunes);
 }

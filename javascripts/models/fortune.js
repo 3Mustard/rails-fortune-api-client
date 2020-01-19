@@ -1,21 +1,29 @@
-let ALLFORTUNES = [];
-
 class Fortune {
     constructor(id,card1,card2,card3){
+        this.id = id;
         this.cards = [card1,card2,card3];
-        this.card_id = [card1["id"],card2["id"],card3["id"]]
-        this.id = id
-        ALLFORTUNES.push(this)
-    }
-    static all(){
-        return ALLFORTUNES;
     }
 
+    static renderAll(){
+        fetch(`${BACKEND_URL}/fortunes`)
+        .then(response => response.json())
+        .then(fortunes => {
+          fortunes.forEach(fortune => {
+            let card1 = Card.find_by_id(fortune.card_id[0]);
+            let card2 = Card.find_by_id(fortune.card_id[1]);
+            let card3 = Card.find_by_id(fortune.card_id[2]);
+            let id = fortune.id; 
+            let newFortune = new Fortune(id,card1,card2,card3);
+            newFortune.render();
+          });
+        });
+      }
+
     static create(){
-        let card1 = Card.drawCard();
-        let card2 = Card.drawCard();
-        let card3 = Card.drawCard();
-        let card_ids = [card1["id"],card2["id"],card3["id"]]
+        let card1 = Card.draw();
+        let card2 = Card.draw();
+        let card3 = Card.draw();
+        let card_ids = [card1["id"],card2["id"],card3["id"]];
 
         fetch(`${BACKEND_URL}/fortunes`, {
             method: "POST",
@@ -35,7 +43,7 @@ class Fortune {
     }
 
     destroy(e){
-        const id = e.target.dataset.id
+        const id = e.target.dataset.id;
 
         fetch(`${BACKEND_URL}/fortunes/${id}/`, {
             method: "DELETE",
@@ -47,14 +55,6 @@ class Fortune {
             e.target.parentElement.remove();
         })
     }
-
-    static renderAllFortunes(){
-        const fortunes = Fortune.all();
-      
-        if(fortunes.length > 0){
-          fortunes.forEach(fortune => fortune.render());
-        }
-      }
 
     render(){
         let container = document.getElementById('fortunes-container');
@@ -84,7 +84,7 @@ class Fortune {
         
         container.appendChild(fortuneCard);
         fortuneCard.addEventListener('click', e => {
-            if(e.target.className === "delete") this.destroy(e)
-        })
+            if(e.target.className === "delete") this.destroy(e);
+        });
     }
 }

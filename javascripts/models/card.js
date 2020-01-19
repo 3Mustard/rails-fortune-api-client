@@ -14,7 +14,11 @@ class Card {
         this.questions_to_ask = questions_to_ask;
     }
 
-    static createCards(){
+    static all(){
+        return ALLCARDS;
+    }
+
+    static create(){
         fetch(`${BACKEND_URL}/cards`)
         .then(response => response.json())
         .then(cards => {
@@ -26,12 +30,13 @@ class Card {
         });
       }
 
-    static all(){
-        return ALLCARDS;
-    }
-
-    static drawCard(){
+    static draw(){
         let cardNumber = Math.floor(Math.random() * 77);
         return Card.all()[cardNumber];
+    }
+
+    static find_by_id(id){
+      let index = id - 1;
+      return ALLCARDS[index]
     }
 }
