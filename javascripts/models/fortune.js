@@ -5,6 +5,7 @@ class Fortune {
     }
 
     static renderAll(){
+        Menu.clearFortunes();
         fetch(`${BACKEND_URL}/fortunes`)
         .then(response => response.json())
         .then(fortunes => {

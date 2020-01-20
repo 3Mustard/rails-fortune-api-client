@@ -6,5 +6,5 @@ document.addEventListener('DOMContentLoaded', function(){
 
 function setupPage(){
   Card.create();
-  Options.render();
+  Menu.render();
 }
