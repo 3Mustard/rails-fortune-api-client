@@ -1,0 +1,28 @@
+#fortunes-container {
+    height: 100vh;
+}
+
+.fortune-card {
+    height: 500px;
+    display: inline-block;
+}
+
+.fortune-card img {
+    height: 300px;
+    width: auto;
+}
+
+#card-card1 {
+    display: inline-block;
+    width: 300px;
+}
+
+#card-card2 {
+    display: inline-block;
+    width: 300px;
+}
+
+#card-card3 {
+    float: right;
+    width: 300px;
+}

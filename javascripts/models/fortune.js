@@ -68,18 +68,24 @@ class Fortune {
         fortuneCard.classList.add('fortune-card');
         fortuneCard.id = this.id;
         fortuneCard.innerHTML = `
+            <div id="card-card1">
             <h2>${card1.name}</h2>
             <img src="assets/images/cards/${card1.img}">
             <p>${card1.fortune_telling}</p>
             <p>${card1.keywords}</p>
+            </div>
+            <div id="card-card2">
             <h2>${card2.name}</h2>
             <img src="assets/images/cards/${card2.img}">
             <p>${card2.fortune_telling}</p>
             <p>${card2.keywords}</p>
+            </div>
+            <div id="card-card3">
             <h2>${card3.name}</h2>
             <img src="assets/images/cards/${card3.img}">
             <p>${card3.fortune_telling}</p>
             <p>${card3.keywords}</p>
+            </div>   
             <btn data-id="${this.id}"class="delete">Remove Fortune</btn>
         `;
         
