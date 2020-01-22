@@ -1,28 +1,63 @@
-#fortunes-container {
-    height: 100vh;
+#options {
+	text-align: center;
+	margin-top: 20px;
+	margin-bottom: 50px;
 }
 
-.fortune-card {
-    height: 500px;
-    display: inline-block;
+.delete-container {
+    margin: auto;
+    width: 50%;
+	text-align: center;
 }
 
-.fortune-card img {
-    height: 300px;
-    width: auto;
+.navBtns {
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+	background-color:#ffffff;
+	border-radius:6px;
+	border:1px solid #dcdcdc;
+	display:inline-block;
+	cursor:pointer;
+	color:#666666;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #ffffff;
 }
+.navBtns:hover {
+	background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+	background-color:#f6f6f6;
+}
+.navBtns:active {
+	position:relative;
+	top:1px;
+}    
 
-#card-card1 {
-    display: inline-block;
-    width: 300px;
+.delete {
+	margin: auto;
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+	background-color:#ffffff;
+	border-radius:6px;
+	border:1px solid #dcdcdc;
+	display:inline-block;
+	cursor:pointer;
+	color:#666666;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #ffffff;
+	text-align: center;
 }
-
-#card-card2 {
-    display: inline-block;
-    width: 300px;
+.delete:hover {
+	background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+	background-color:#f6f6f6;
 }
-
-#card-card3 {
-    float: right;
-    width: 300px;
-}
+.delete:active {
+	position:relative;
+	top:1px;
+}   

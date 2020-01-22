@@ -65,27 +65,30 @@ class Fortune {
         let card3 = this.cards[2];
 
         let fortuneCard = document.createElement('div');
-        fortuneCard.classList.add('fortune-card');
+        fortuneCard.classList.add('row');
         fortuneCard.id = this.id;
         fortuneCard.innerHTML = `
-            <div id="card-card1">
+            <div id="card-card1" class="col-lg-4">
             <h2>${card1.name}</h2>
             <img src="assets/images/cards/${card1.img}">
             <p>${card1.fortune_telling}</p>
+            <h4>Keywords:</h4>
             <p>${card1.keywords}</p>
             </div>
-            <div id="card-card2">
+            <div id="card-card2" class="col-lg-4">
             <h2>${card2.name}</h2>
             <img src="assets/images/cards/${card2.img}">
             <p>${card2.fortune_telling}</p>
+            <h4>Keywords:</h4>
             <p>${card2.keywords}</p>
             </div>
-            <div id="card-card3">
+            <div id="card-card3" class="col-lg-4">
             <h2>${card3.name}</h2>
             <img src="assets/images/cards/${card3.img}">
             <p>${card3.fortune_telling}</p>
+            <h4>Keywords:</h4>
             <p>${card3.keywords}</p>
-            </div>   
+            </div> 
             <btn data-id="${this.id}"class="delete">Remove Fortune</btn>
         `;
         
