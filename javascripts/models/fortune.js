@@ -19,12 +19,36 @@ class Fortune {
           });
         });
       }
+    
+    static assignCards(){
+        let cards = [];
+        for (let i = 0; i < 3; i++){
+            cards.push(Card.draw());
+        }
+        Fortune.checkForDuplicateCards(cards);
+        return cards
+    }
+
+    static checkForDuplicateCards(cardArr){
+        let cards = [];
+        let result = [];
+
+        cardArr.forEach(function (card) {
+          if(!cards.includes(card)){
+            cards.push(card);
+          }else{
+            result.push(card);
+          }
+        })
+
+        if (result.length > 0){
+            Fortune.assignCards(); 
+        } 
+    }
 
     static create(){
-        let card1 = Card.draw();
-        let card2 = Card.draw();
-        let card3 = Card.draw();
-        let card_ids = [card1["id"],card2["id"],card3["id"]];
+        let cards = Fortune.assignCards();
+        let card_ids = [cards[0]["id"],cards[1]["id"],cards[2]["id"]];
 
         fetch(`${BACKEND_URL}/fortunes`, {
             method: "POST",
@@ -38,7 +62,7 @@ class Fortune {
         })
         .then(response => response.json())
         .then(fortune => {
-            let newFortune = new Fortune(fortune["id"],card1,card2,card3);
+            let newFortune = new Fortune(fortune["id"],cards[0],cards[1],cards[2]);
             newFortune.render();
         })
     }
@@ -92,7 +116,7 @@ class Fortune {
             <btn data-id="${this.id}"class="delete">Remove Fortune</btn>
         `;
         
-        container.appendChild(fortuneCard);
+        container.prepend(fortuneCard);
         fortuneCard.addEventListener('click', e => {
             if(e.target.className === "delete") this.destroy(e);
         });
