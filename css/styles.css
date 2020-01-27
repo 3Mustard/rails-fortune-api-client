@@ -37,27 +37,29 @@
 
 .delete {
 	margin: auto;
-	box-shadow:inset 0px 1px 0px 0px #ffffff;
-	background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
-	background-color:#ffffff;
+	box-shadow:inset 0px 39px 0px -24px #e67a73;
+	background-color:#e4685d;
 	border-radius:6px;
-	border:1px solid #dcdcdc;
+	border:1px solid #ffffff;
 	display:inline-block;
 	cursor:pointer;
-	color:#666666;
+	color:#ffffff;
 	font-family:Arial;
 	font-size:15px;
 	font-weight:bold;
 	padding:6px 24px;
 	text-decoration:none;
-	text-shadow:0px 1px 0px #ffffff;
+	text-shadow:0px 1px 0px #b23e35;
 	text-align: center;
 }
 .delete:hover {
-	background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
-	background-color:#f6f6f6;
+	background-color:#eb675e;
 }
 .delete:active {
 	position:relative;
 	top:1px;
-}   
+}
+
+.col-lg-4 {
+	text-align: center;
+}
