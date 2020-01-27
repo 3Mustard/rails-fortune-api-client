@@ -1,6 +1,7 @@
 class Menu {
     static render(){
       Menu.renderNewFortuneBtn();
+      Menu.renderSingleFortuneBtn();
       Menu.renderViewFortunesBtn();
       Menu.renderClearFortunesBtn();
     }
@@ -21,10 +22,22 @@ class Menu {
       const options = document.getElementById("options");
           
       let newFortune = document.createElement("btn");
-      newFortune.innerHTML = "New Fortune"
+      newFortune.innerHTML = "Three Card Draw"
       newFortune.id = "new-fortune"
       newFortune.classList = "navBtns"
       newFortune.addEventListener('click',Fortune.create);
+
+      options.appendChild(newFortune);
+    }
+
+    static renderSingleFortuneBtn(){
+      const options = document.getElementById("options");
+          
+      let newFortune = document.createElement("btn");
+      newFortune.innerHTML = "One Card Draw"
+      newFortune.id = "new-fortune"
+      newFortune.classList = "navBtns"
+      newFortune.addEventListener('click',Fortune.createOneCardFortune);
 
       options.appendChild(newFortune);
     }
@@ -33,7 +46,7 @@ class Menu {
       const options = document.getElementById("options");
 
       let viewFortunes = document.createElement("btn");
-      viewFortunes.innerHTML = "View Fortune"
+      viewFortunes.innerHTML = "View Fortunes"
       viewFortunes.id = "view-fortunes"
       viewFortunes.classList = "navBtns"
       viewFortunes.addEventListener('click',Fortune.renderAll);
