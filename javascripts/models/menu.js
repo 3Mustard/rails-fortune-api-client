@@ -1,43 +1,33 @@
 class Menu {
     static render(){
-      Menu.renderNewFortuneBtn();
-      Menu.renderSingleFortuneBtn();
+      Menu.renderThreeCardBtn();
+      Menu.renderSingleCardBtn();
       Menu.renderViewFortunesBtn();
       Menu.renderClearFortunesBtn();
     }
-    
-    static renderClearFortunesBtn(){
-      const options = document.getElementById("options");
-          
-      let clearBtn = document.createElement("btn");
-      clearBtn.innerHTML = "Clear Fortunes"
-      clearBtn.id = "clear-fortunes"
-      clearBtn.classList = "navBtns"
-      clearBtn.addEventListener('click',Menu.clearFortunes);
 
-      options.appendChild(clearBtn);
-    }
-
-    static renderNewFortuneBtn(){
+    static renderThreeCardBtn(){
       const options = document.getElementById("options");
           
       let newFortune = document.createElement("btn");
       newFortune.innerHTML = "Three Card Draw"
       newFortune.id = "new-fortune"
       newFortune.classList = "navBtns"
+      newFortune.dataset.cardAmount = "3"
       newFortune.addEventListener('click',Fortune.create);
 
       options.appendChild(newFortune);
     }
 
-    static renderSingleFortuneBtn(){
+    static renderSingleCardBtn(){
       const options = document.getElementById("options");
           
       let newFortune = document.createElement("btn");
       newFortune.innerHTML = "One Card Draw"
       newFortune.id = "new-fortune"
       newFortune.classList = "navBtns"
-      newFortune.addEventListener('click',Fortune.createOneCardFortune);
+      newFortune.dataset.cardAmount = "1"
+      newFortune.addEventListener('click',Fortune.create);
 
       options.appendChild(newFortune);
     }
@@ -52,6 +42,18 @@ class Menu {
       viewFortunes.addEventListener('click',Fortune.renderAll);
 
       options.appendChild(viewFortunes);
+    }
+
+    static renderClearFortunesBtn(){
+      const options = document.getElementById("options");
+          
+      let clearBtn = document.createElement("btn");
+      clearBtn.innerHTML = "Clear Fortunes"
+      clearBtn.id = "clear-fortunes"
+      clearBtn.classList = "navBtns"
+      clearBtn.addEventListener('click',Menu.clearFortunes);
+
+      options.appendChild(clearBtn);
     }
 
     static clearFortunes(){

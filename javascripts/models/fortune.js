@@ -1,7 +1,7 @@
 class Fortune {
-    constructor(id,card1,card2,card3){
+    constructor(id,cards){
         this.id = id;
-        this.cards = [card1,card2,card3];
+        this.cards = cards;
     }
 
     static renderAll(){
@@ -10,45 +10,18 @@ class Fortune {
         .then(response => response.json())
         .then(fortunes => {
           fortunes.forEach(fortune => {
-            let card1 = Card.find_by_id(fortune.card_id[0]);
-            let card2 = Card.find_by_id(fortune.card_id[1]);
-            let card3 = Card.find_by_id(fortune.card_id[2]);
+            let cards = fortune.card_id.map((id) => Card.find_by_id(id) );
             let id = fortune.id; 
-            let newFortune = new Fortune(id,card1,card2,card3);
+            let newFortune = new Fortune(id,cards);
             newFortune.render();
           });
         });
-      }
-    
-    static assignCards(){
-        let cards = [];
-        for (let i = 0; i < 3; i++){
-            cards.push(Card.draw());
-        }
-        Fortune.checkForDuplicateCards(cards);
-        return cards
     }
 
-    static checkForDuplicateCards(cardArr){
-        let cards = [];
-        let result = [];
-
-        cardArr.forEach(function (card) {
-          if(!cards.includes(card)){
-            cards.push(card);
-          }else{
-            result.push(card);
-          }
-        })
-    
-        if (result.length > 0){
-            Fortune.assignCards(); 
-        } 
-    }
-
-    static create(){
-        let cards = Fortune.assignCards();
-        let card_ids = [cards[0]["id"],cards[1]["id"],cards[2]["id"]];
+    static create(e){
+        let numberOfCards = parseInt(e.target.dataset.cardAmount, 10);
+        let cards = Fortune.assignCards(numberOfCards);
+        let ids = cards.map((card) => card.id );
 
         fetch(`${BACKEND_URL}/fortunes`, {
             method: "POST",
@@ -57,33 +30,12 @@ class Fortune {
                 "Accept": "application/json"
             },
             body: JSON.stringify({
-                card_ids: card_ids
+                card_ids: ids
             })
         })
         .then(response => response.json())
         .then(fortune => {
-            let newFortune = new Fortune(fortune["id"],cards[0],cards[1],cards[2]);
-            newFortune.render();
-        })
-    }
-
-    static createOneCardFortune(){
-        let cards = Fortune.assignCards();
-        let card_ids = [cards[0]["id"]];
-
-        fetch(`${BACKEND_URL}/fortunes`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            },
-            body: JSON.stringify({
-                card_ids: card_ids
-            })
-        })
-        .then(response => response.json())
-        .then(fortune => {
-            let newFortune = new Fortune(fortune["id"],cards[0]);
+            let newFortune = new Fortune(fortune["id"],cards);
             newFortune.render();
         })
     }
@@ -104,64 +56,53 @@ class Fortune {
 
     render(){
         let container = document.getElementById('fortunes-container');
-        if (this.cards[1] !== undefined){
-            let card1 = this.cards[0];
-            let card2 = this.cards[1];
-            let card3 = this.cards[2];
-
-            let fortuneCard = document.createElement('div');
+        let fortuneCard = document.createElement('div');
             fortuneCard.classList.add('row');
             fortuneCard.id = this.id;
-            fortuneCard.innerHTML = `
+
+        let numberOfCards = this.cards.length;
+        for(let i = 0; i < numberOfCards; i++){
+            fortuneCard.innerHTML += `
                 <div id="card-card1" class="col-lg-4">
-                <h2>${card1.name}</h2>
-                <img src="assets/images/cards/${card1.img}">
-                <p>${card1.fortune_telling.join(" ")}</p>
+                <h2>${this.cards[i].name}</h2>
+                <img src="assets/images/cards/${this.cards[i].img}">
+                <p>${this.cards[i].fortune_telling.join(" ")}</p>
                 <h4>Keywords:</h4>
-                <p>${card1.keywords.join(" ")}</p>
+                <p>${this.cards[i].keywords.join(" ")}</p>
                 </div>
-                <div id="card-card2" class="col-lg-4">
-                <h2>${card2.name}</h2>
-                <img src="assets/images/cards/${card2.img}">
-                <p>${card2.fortune_telling.join(" ")}</p>
-                <h4>Keywords:</h4>
-                <p>${card2.keywords.join(" ")}</p>
-                </div>
-                <div id="card-card3" class="col-lg-4">
-                <h2>${card3.name}</h2>
-                <img src="assets/images/cards/${card3.img}">
-                <p>${card3.fortune_telling.join(" ")}</p>
-                <h4>Keywords:</h4>
-                <p>${card3.keywords.join(" ")}</p>
-                </div> 
-                <btn data-id="${this.id}"class="delete">Remove Fortune</btn>
             `;
-            container.prepend(fortuneCard);
-            fortuneCard.addEventListener('click', e => {
-                if(e.target.className === "delete") this.destroy(e);
-            });
-
-        }else{
-            let card = this.cards[0];
-
-            let fortuneCard = document.createElement('div');
-            fortuneCard.classList.add('row');
-            fortuneCard.id = this.id;
-            fortuneCard.innerHTML = `
-                <div id="card-card1" class="col-lg-4" style="display: inline-block;">
-                <h2>${card.name}</h2>
-                <img src="assets/images/cards/${card.img}">
-                <p>${card.fortune_telling.join(" ")}</p>
-                <h4>Keywords:</h4>
-                <p>${card.keywords.join(" ")}</p>
-                </div>
-                <btn data-id="${this.id}"class="delete">Remove Fortune</btn>
-            `;
-            container.prepend(fortuneCard);
-            fortuneCard.addEventListener('click', e => {
-                if(e.target.className === "delete") this.destroy(e);
-            });
         }
-        
+        fortuneCard.innerHTML += `<btn data-id="${this.id}"class="delete">Remove Fortune</btn>`;
+
+        container.prepend(fortuneCard);
+        fortuneCard.addEventListener('click', e => {
+            if(e.target.className === "delete") this.destroy(e);
+        }); 
+    }
+
+    static assignCards(numberOfCards){
+        let cards = [];
+        for (let i = 0; i < numberOfCards; i++){
+            cards.push(Card.draw());
+        }
+        Fortune.checkForDuplicateCards(cards,numberOfCards);
+        return cards
+    }
+
+    static checkForDuplicateCards(cardArr,numberOfCards){
+        let cards = [];
+        let result = [];
+
+        cardArr.forEach(function (card) {
+          if(!cards.includes(card)){
+            cards.push(card);
+          }else{
+            result.push(card);
+          }
+        })
+    
+        if (result.length > 0){
+            Fortune.assignCards(numberOfCards); 
+        } 
     }
 }
