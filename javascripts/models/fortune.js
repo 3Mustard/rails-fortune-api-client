@@ -29,7 +29,7 @@ class Fortune {
     static assignCards(numberOfCards){
         let cards = [];
         for (let i = 0; i < numberOfCards; i++){
-            cards.push(Card.draw());
+            cards.push(deck.draw());
         }
         Fortune.checkForDuplicateCards(cards,numberOfCards);
         return cards
@@ -39,7 +39,7 @@ class Fortune {
         let cards = [];
         let result = [];
 
-        cardArr.forEach(function (card) {
+        cardArr.forEach((card) => {
           if(!cards.includes(card)){
             cards.push(card);
           }else{
@@ -58,7 +58,7 @@ class Fortune {
         .then(response => response.json())
         .then(fortunes => {
           fortunes.forEach(fortune => {
-            let cards = fortune.card_id.map((id) => Card.find_by_id(id) );
+            let cards = fortune.card_id.map((id) => deck.get(id) );
             let id = fortune.id; 
             let newFortune = new Fortune(id,cards);
             newFortune.render();
