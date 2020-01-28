@@ -4,26 +4,10 @@ class Fortune {
         this.cards = cards.map((card) => card)
     }
 
-    static renderAll(){
-        Menu.clearFortunes();
-        fetch(`${BACKEND_URL}/fortunes`)
-        .then(response => response.json())
-        .then(fortunes => {
-          fortunes.forEach(fortune => {
-            let cards = fortune.card_id.map((id) => Card.find_by_id(id) );
-            let id = fortune.id; 
-            let newFortune = new Fortune(id,cards);
-            newFortune.render();
-          });
-        });
-    }
-
     static create(e){
         let numberOfCards = parseInt(e.target.dataset.cardAmount, 10);
         let cards = Fortune.assignCards(numberOfCards);
-        console.log(cards)
         let ids = cards.map((card) => card.id );
-        console.log(ids)
 
         fetch(`${BACKEND_URL}/fortunes`, {
             method: "POST",
@@ -42,18 +26,44 @@ class Fortune {
         })
     }
 
-    destroy(e){
-        const id = e.target.dataset.id;
+    static assignCards(numberOfCards){
+        let cards = [];
+        for (let i = 0; i < numberOfCards; i++){
+            cards.push(Card.draw());
+        }
+        Fortune.checkForDuplicateCards(cards,numberOfCards);
+        return cards
+    }
 
-        fetch(`${BACKEND_URL}/fortunes/${id}/`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-            }
+    static checkForDuplicateCards(cardArr,numberOfCards){
+        let cards = [];
+        let result = [];
+
+        cardArr.forEach(function (card) {
+          if(!cards.includes(card)){
+            cards.push(card);
+          }else{
+            result.push(card);
+          }
         })
-        .then(()=>{
-            e.target.parentElement.remove();
-        })
+    
+        if (result.length > 0){
+            Fortune.assignCards(numberOfCards); 
+        } 
+    }
+
+    static renderAll(){
+        Menu.clearFortunes();
+        fetch(`${BACKEND_URL}/fortunes`)
+        .then(response => response.json())
+        .then(fortunes => {
+          fortunes.forEach(fortune => {
+            let cards = fortune.card_id.map((id) => Card.find_by_id(id) );
+            let id = fortune.id; 
+            let newFortune = new Fortune(id,cards);
+            newFortune.render();
+          });
+        });
     }
 
     render(){
@@ -82,29 +92,17 @@ class Fortune {
         }); 
     }
 
-    static assignCards(numberOfCards){
-        let cards = [];
-        for (let i = 0; i < numberOfCards; i++){
-            cards.push(Card.draw());
-        }
-        Fortune.checkForDuplicateCards(cards,numberOfCards);
-        return cards
-    }
+    destroy(e){
+        const id = e.target.dataset.id;
 
-    static checkForDuplicateCards(cardArr,numberOfCards){
-        let cards = [];
-        let result = [];
-
-        cardArr.forEach(function (card) {
-          if(!cards.includes(card)){
-            cards.push(card);
-          }else{
-            result.push(card);
-          }
+        fetch(`${BACKEND_URL}/fortunes/${id}/`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            }
         })
-    
-        if (result.length > 0){
-            Fortune.assignCards(numberOfCards); 
-        } 
+        .then(()=>{
+            e.target.parentElement.remove();
+        })
     }
 }
