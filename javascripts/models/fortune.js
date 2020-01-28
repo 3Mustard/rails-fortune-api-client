@@ -1,7 +1,7 @@
 class Fortune {
     constructor(id,cards){
         this.id = id;
-        this.cards = cards;
+        this.cards = cards.map((card) => card)
     }
 
     static renderAll(){
@@ -21,7 +21,9 @@ class Fortune {
     static create(e){
         let numberOfCards = parseInt(e.target.dataset.cardAmount, 10);
         let cards = Fortune.assignCards(numberOfCards);
+        console.log(cards)
         let ids = cards.map((card) => card.id );
+        console.log(ids)
 
         fetch(`${BACKEND_URL}/fortunes`, {
             method: "POST",
