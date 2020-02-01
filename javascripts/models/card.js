@@ -12,6 +12,7 @@ class Card {
         this.questions_to_ask = questions_to_ask;
     }
 
+    //for each card object from database, create a js card object and add it to a deck object
     static create(){
         fetch(`${BACKEND_URL}/cards`)
         .then(response => response.json())
