@@ -1,9 +1,11 @@
+//A fortune object represents a number of random card objects and has methods for rendering,creating, and deleting them from fortune-api
 class Fortune {
     constructor(id,cards){
         this.id = id;
         this.cards = cards.map((card) => card)
     }
-
+    
+    //Uses an event listener to create and render fortune objects.
     static create(e){
         let numberOfCards = parseInt(e.target.dataset.cardAmount, 10);
         let cards = Fortune.assignCards(numberOfCards);
@@ -26,16 +28,19 @@ class Fortune {
         })
     }
 
+    //takes in an integer X and returns an array of X card objects after calling checkForDuplicateCards.
     static assignCards(numberOfCards){
         let cards = [];
         for (let i = 0; i < numberOfCards; i++){
             cards.push(deck.draw());
         }
-        Fortune.checkForDuplicateCards(cards,numberOfCards);
+        Fortune.checkForDuplicateCards(cards);
         return cards
     }
 
-    static checkForDuplicateCards(cardArr,numberOfCards){
+    //takes in an array of cards and checks if any items are equal. If any are equal then assignCards is called.
+    static checkForDuplicateCards(cardArr){
+        let numberOfCards = cardArr.length;
         let cards = [];
         let result = [];
 
@@ -52,6 +57,7 @@ class Fortune {
         } 
     }
 
+    //clears the DOM of any fortunes, fetches all fortunes from DB and calls render on each of them.
     static renderAll(){
         Menu.clearFortunes();
         fetch(`${BACKEND_URL}/fortunes`)
@@ -65,7 +71,8 @@ class Fortune {
           });
         });
     }
-
+    
+    //renders a fortune container with the apporpriate amount of card divs
     render(){
         let container = document.getElementById('fortunes-container');
         let fortuneCard = document.createElement('div');
@@ -92,6 +99,7 @@ class Fortune {
         }); 
     }
 
+    //destroys the fortune from DB and DOM based on id passed though an event listener.
     destroy(e){
         const id = e.target.dataset.id;
 
