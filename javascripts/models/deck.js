@@ -21,5 +21,3 @@ class Deck {
         return this.cards[cardNumber];
     }
 }
-
-let deck = new Deck();
