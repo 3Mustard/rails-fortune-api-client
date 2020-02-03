@@ -14,7 +14,7 @@ class Deck {
         let index = id - 1;
         return this.cards[index]
     }
-    
+
     //return a random card object from a 78 card deck
     draw(){
         let cardNumber = Math.round(Math.random() * 77);

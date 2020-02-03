@@ -79,24 +79,40 @@ class Fortune {
             fortuneCard.classList.add('row');
             fortuneCard.id = this.id;
 
-        let numberOfCards = this.cards.length;
-        for(let i = 0; i < numberOfCards; i++){
+        this.cards.forEach(card => {
             fortuneCard.innerHTML += `
                 <div id="card-card1" class="col-lg-4">
-                <h2>${this.cards[i].name}</h2>
-                <img src="assets/images/cards/${this.cards[i].img}">
-                <p>${this.cards[i].fortune_telling.join(" ")}</p>
+                <h2>${card.name}</h2>
+                <img src="assets/images/cards/${card.img}">
+                <p>${card.fortune_telling.join(" ")}</p>
                 <h4>Keywords:</h4>
-                <p>${this.cards[i].keywords.join(" ")}</p>
+                <p>${card.keywords.join(" ")}</p>
                 </div>
             `;
-        }
+        })
+    
         fortuneCard.innerHTML += `<btn data-id="${this.id}"class="delete">Remove Fortune</btn>`;
+        fortuneCard.innerHTML += `<btn data-id="${this.id}"class="show">Show Fortune</btn>`;
 
         container.prepend(fortuneCard);
         fortuneCard.addEventListener('click', e => {
             if(e.target.className === "delete") this.destroy(e);
+            if(e.target.className === "show") this.show(e);
         }); 
+    }
+
+    show(e){
+        Menu.clearFortunes();
+        const id = e.target.dataset.id;
+
+        fetch(`${BACKEND_URL}/fortunes/${id}`)
+        .then(response => response.json())
+        .then(fortune => {
+            let cards = fortune.card_id.map((id) => deck.get(id) );
+            let id = fortune.id; 
+            let newFortune = new Fortune(id,cards);
+            newFortune.render();
+        })
     }
 
     //destroys the fortune from DB and DOM based on id passed though an event listener.
