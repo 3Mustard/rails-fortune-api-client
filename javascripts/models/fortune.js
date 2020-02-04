@@ -92,27 +92,11 @@ class Fortune {
         })
     
         fortuneCard.innerHTML += `<btn data-id="${this.id}"class="delete">Remove Fortune</btn>`;
-        fortuneCard.innerHTML += `<btn data-id="${this.id}"class="show">Show Fortune</btn>`;
 
         container.prepend(fortuneCard);
         fortuneCard.addEventListener('click', e => {
             if(e.target.className === "delete") this.destroy(e);
-            if(e.target.className === "show") this.show(e);
         }); 
-    }
-
-    show(e){
-        Menu.clearFortunes();
-        const id = e.target.dataset.id;
-
-        fetch(`${BACKEND_URL}/fortunes/${id}`)
-        .then(response => response.json())
-        .then(fortune => {
-            let cards = fortune.card_id.map((id) => deck.get(id) );
-            let id = fortune.id; 
-            let newFortune = new Fortune(id,cards);
-            newFortune.render();
-        })
     }
 
     //destroys the fortune from DB and DOM based on id passed though an event listener.
